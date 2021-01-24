@@ -20,14 +20,6 @@ services:
 
 jobs:
   include:
-    - stage: build docker image
-      script:
-      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker pull $DOCKER_USERNAME/prova:latest
-      - docker build --cache-from $DOCKER_USERNAME/prova:latest -t prova Dockerfile
-      - docker images
-      - docker tag prova $DOCKER_USERNAME/prova
-      - docker push $DOCKER_USERNAME/prova
     - stage: test
       script:
       - docker run --rm $DOCKER_USERNAME/prova
