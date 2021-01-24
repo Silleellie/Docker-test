@@ -19,9 +19,9 @@ jobs:
     - stage: build docker image
       script:
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker build -t prova Dockerfile/Dockerfile
+      - docker build -t prova Dockerfile
       - docker images
-      - docker tag travis-ci-build-stages-demo $DOCKER_USERNAME/travis-ci-build-stages-demo
+      - docker tag prova $DOCKER_USERNAME/prova
       - docker push $DOCKER_USERNAME/prova
     - stage: test
       script:
