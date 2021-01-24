@@ -15,7 +15,7 @@ services:
   - docker
 
 script:
-  - docker build -t prova/prr
+  - docker build -t prova/prr Dockerfile
   
 git:
   depth: false
