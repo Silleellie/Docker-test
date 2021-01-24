@@ -18,8 +18,9 @@ jobs:
   include:
     - stage: build docker image
       script:
+      - docker pull silleellie/prova:latest
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker build -t prova Dockerfile
+      - docker build --cache-from silleellie/prova:latest -t prova Dockerfile
       - docker images
       - docker tag prova $DOCKER_USERNAME/prova
       - docker push $DOCKER_USERNAME/prova
