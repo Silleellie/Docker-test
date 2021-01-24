@@ -27,12 +27,8 @@ jobs:
           file:  Dockerfile/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/prova:latest
-      -
-        name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
-      -
-        name: Test
-      - run: container_id=$(docker run -d -it -v $(pwd):/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
-      - run: docker exec -it $container_id pip install coverage coveralls
-      - run: docker stop $container_id
-      - run: docker container rm $container_id
+            
+      -  run: container_id=$(docker run -d -it -v $(pwd):/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
+      -  run: docker exec -it $container_id pip install coverage coveralls
+      -  run: docker stop $container_id
+      -  run: docker container rm $container_id
