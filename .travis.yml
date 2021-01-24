@@ -1,3 +1,5 @@
+# Impostare DOCKER_PASSWORD e DOCKER_USERNAME come 'Environment Variables' in Travis CI
+
 env:
   global:
     - CI_NAME:travis-pro
@@ -18,15 +20,15 @@ jobs:
   include:
     - stage: build docker image
       script:
-      - docker pull silleellie/prova:latest
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - docker build --cache-from silleellie/prova:latest -t prova Dockerfile
+      - docker pull $DOCKER_USERNAME/prova:latest
+      - docker build --cache-from $DOCKER_USERNAME/prova:latest -t prova Dockerfile
       - docker images
       - docker tag prova $DOCKER_USERNAME/prova
       - docker push $DOCKER_USERNAME/prova
     - stage: test
       script:
-      - docker run --rm $DOCKER_USERNAME/prova cat python print("we")
+      - docker run --rm $DOCKER_USERNAME/prova python print("we")
   
 git:
   depth: false
