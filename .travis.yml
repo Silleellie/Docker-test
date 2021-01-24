@@ -1,4 +1,6 @@
 # Impostare DOCKER_PASSWORD e DOCKER_USERNAME come 'Environment Variables' in Travis CI
+# Crea (o se già presente, aggiorna) un'immagine Docker contenente tutte le dipendenze necessarie al framework presso il repository locato all'indirizzo:
+# https://hub.docker.com/r/DOCKER_USERNAME/prova
 
 env:
   global:
@@ -28,7 +30,7 @@ jobs:
       - docker push $DOCKER_USERNAME/prova
     - stage: test
       script:
-      - docker run --rm $DOCKER_USERNAME/prova python print("we")
+      - docker run --rm $DOCKER_USERNAME/prova
   
 git:
   depth: false
