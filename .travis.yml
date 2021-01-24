@@ -14,8 +14,18 @@ cache: pip
 services:
   - docker
 
-script:
-  - docker build -t prova/prr Dockerfile
+jobs:
+  include:
+    - stage: build docker image
+      script:
+      - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - docker build -t prova Dockerfile/Dockerfile
+      - docker images
+      - docker tag travis-ci-build-stages-demo $DOCKER_USERNAME/travis-ci-build-stages-demo
+      - docker push $DOCKER_USERNAME/prova
+    - stage: test
+      script:
+      - docker run --rm $DOCKER_USERNAME/prova cat python print("we")
   
 git:
   depth: false
