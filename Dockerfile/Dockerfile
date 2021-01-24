@@ -1,5 +1,4 @@
 ARG VERSION=3.8
 FROM python:$VERSION
 
-WORKDIR /
 RUN ls
