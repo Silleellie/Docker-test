@@ -30,9 +30,11 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/prova:latest
       -
          name: Test
+         working-directory: ${{ github.workspace }}
          run:
                | 
                 docker images
+                ls
                 container_id=$(docker run -d -i -v $(pwd):/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
                 docker exec -i $container_id pip install coverage coveralls
                 docker exec -i $container_id python setup.py install
