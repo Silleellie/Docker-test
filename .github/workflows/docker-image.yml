@@ -27,7 +27,6 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          context: ${{ github.workspace }}
           file:  Dockerfile/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/prova:latest
@@ -39,6 +38,7 @@ jobs:
                 echo "weeeee"
                 echo ${{ github.workspace }}
                 ls
+                echo "ls del container"
                 docker exec -i $container_id ls
                 docker stop $container_id
                 docker container rm $container_id
