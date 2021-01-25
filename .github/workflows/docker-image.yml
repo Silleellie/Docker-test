@@ -34,7 +34,7 @@ jobs:
          run:
                | 
                 ls
-                container_id=$(docker run -d -i -v $(pwd) ${{ secrets.DOCKER_USERNAME }}/prova)
+                container_id=$(docker run -d -i -v ${{ github.workspace }}:/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
                 echo "weeee"
                 ls
                 docker exec -i $container_id ls
