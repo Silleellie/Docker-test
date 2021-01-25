@@ -31,7 +31,7 @@ jobs:
          name: Test
          run: | 
                 docker images
-                container_id=$(docker run -t -it -v $(pwd):/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
-                docker exec -it $container_id pip install coverage coveralls
+                container_id=$(docker run $(pwd):/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
+                docker exec $container_id pip install coverage coveralls
                 docker stop $container_id
                 docker container rm $container_id
