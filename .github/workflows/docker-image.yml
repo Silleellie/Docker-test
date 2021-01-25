@@ -33,8 +33,8 @@ jobs:
          working-directory: ${{ github.workspace }}
          run:
                | 
-                docker images
-                container_id=$(docker run -d -i -v $(pwd):/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
+                ls
+                container_id=$(docker run -d -i -v $(pwd) ${{ secrets.DOCKER_USERNAME }}/prova)
                 echo "weeee"
                 ls
                 docker exec -i $container_id ls
