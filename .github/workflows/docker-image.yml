@@ -30,12 +30,11 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/prova:latest
       -
          name: Test
-         working-directory: ${{ github.workspace }}
          run:
                | 
                 ls
-                container_id=$(docker run -d -i -v ${{ github.workspace }}:/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
-                echo "weeee"
+                container_id=$(docker run -d -i -v ${pwd}:/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
+                cd ${{ github.workspace }}
                 ls
                 docker exec -i $container_id ls
                 docker stop $container_id
