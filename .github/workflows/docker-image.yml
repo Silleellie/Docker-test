@@ -35,6 +35,6 @@ jobs:
                 docker images
                 container_id=$(docker run -d -i -v $(pwd):/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
                 docker exec -i $container_id pip install coverage coveralls
-                docker exec -i $container_id python setup.py install
+                docker exec -i $container_id ls
                 docker stop $container_id
                 docker container rm $container_id
