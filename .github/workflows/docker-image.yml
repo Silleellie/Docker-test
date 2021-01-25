@@ -31,15 +31,13 @@ jobs:
           file:  Dockerfile/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/prova:latest
-          path: 
       -
          name: Test
          run:
-               | 
+               |
+                ls  
                 container_id=$(docker run -d -i -t -v ${pwd}:/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
                 echo "weeeee"
-                echo ${{ github.workspace }}
-                ls
                 echo "ls del container"
                 docker exec -i $container_id ls
                 docker stop $container_id
