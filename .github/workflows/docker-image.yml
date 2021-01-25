@@ -28,10 +28,13 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/prova:latest
       -
+          name: Start env
+          run: docker-compose up
+      -
          name: Test
          run: | 
                 docker images
-                container_id=$(docker run -t -v $(pwd):/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
-                docker exec -t $container_id pip install coverage coveralls
+                container_id=$(docker run -d -it -v $(pwd):/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
+                docker exec -it $container_id pip install coverage coveralls
                 docker stop $container_id
                 docker container rm $container_id
