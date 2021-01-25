@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v1
       - 
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
@@ -29,8 +30,8 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/prova:latest
       -
          name: Test
-         working-directory: ./
-         run: | 
+         run:
+               | 
                 ls
                 docker images
                 container_id=$(docker run -d -i -v $(pwd):/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
@@ -38,3 +39,4 @@ jobs:
                 docker exec -i $container_id ls
                 docker stop $container_id
                 docker container rm $container_id
+         working-directory: ./
