@@ -22,12 +22,12 @@ jobs:
               FILE_CHANGED=$(git diff --name-only HEAD^ HEAD)
               
               for i in $FILE_CHANGED ; do
-                if [[ $file == */Dockerfile ]] || [[ $file == */docker-image.yml ]]; then
+                if [[ $i == */Dockerfile ]] || [[ $i == */docker-image.yml ]]; then
                   echo "::set-output name=run_step::true"
                   break
                 else
                   echo "Non è necessario buildare l'immagine Docker"
-                  echo "::set-output name=run_step::true"
+                  echo "::set-output name=run_step::false"
                 fi
               done
 #       -
