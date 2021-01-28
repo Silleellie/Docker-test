@@ -22,11 +22,11 @@ jobs:
               FILE_CHANGED=$(git diff --name-only HEAD^ HEAD)
               
               for i in $FILE_CHANGED ; do
-                if [[ $file != */Dockerfile ]] && [[ $file != */docker-image.yml ]]; then
-                  echo "Non è necessario buildare l'immagine Docker"
-                  echo "::set-output name=run_step::false"
+                if [[ $file == */Dockerfile ]] || [[ $file == */docker-image.yml ]]; then
+                  echo "::set-output name=run_step::true"
                   break
                 else
+                  echo "Non è necessario buildare l'immagine Docker"
                   echo "::set-output name=run_step::true"
                 fi
               done
@@ -46,7 +46,7 @@ jobs:
         name: fai se
         if: ${{ steps.check.outputs.run_step }} == "true"
         run: |
-            echo "WEEE"
+            echo ${{ steps.check.outputs.run_step }}
 #       - 
 #         name: Set up Docker Buildx
 #         uses: docker/setup-buildx-action@v1
