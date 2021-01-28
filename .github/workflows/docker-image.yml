@@ -25,11 +25,10 @@ jobs:
         name: Check File Changed
         id: check
         run: |
-              git diff --name-only HEAD^ HEAD
-              FILES_CHANGED=$(git diff --name-only HEAD^ HEAD)
-              
-              for i in "${FILES_CHANGED[@]}" ; do
-                if [[ $i == */Dockerfile ]] || [[ $i == setup.py ]]; then
+              git diff --name-only HEAD^ HEAD > files.txt
+              while IFS= read -r file
+              do
+                if [[ $file == */Dockerfile ]] || [[ $file == setup.py ]]; then
                   echo "Necessario buildare l'immagine Docker"
                   echo "::set-output name=must_build::true"
                   break
@@ -42,7 +41,8 @@ jobs:
                     echo "::set-output name=must_build::true"
                   fi
                 fi
-              done
+              done < files.txt
+              rm files.txt
       -
         name: Set up Docker Buildx
         if: ${{ steps.check.outputs.must_build == 'true' }}
