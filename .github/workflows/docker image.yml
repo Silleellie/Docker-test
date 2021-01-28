@@ -24,6 +24,7 @@ jobs:
               for i in $FILE_CHANGED ; do
                 if [[ $i == */Dockerfile ]] || [[ $i == */setup.py ]]; then
                   echo "Necessario buildare l'immagine Docker"
+                  echo $i
                   echo "::set-output name=run_step::true"
                   break
                 else
