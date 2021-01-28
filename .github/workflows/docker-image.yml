@@ -34,7 +34,7 @@ jobs:
                   echo "::set-output name=must_build::true"
                   break
                 else
-                  if [[ docker pull ${{ secrets.DOCKER_USERNAME }}/prova:latest >/dev/null 2>&1 && echo true || echo false ]]; then
+                  if docker pull ${{ secrets.DOCKER_USERNAME }}/prova:latest; then
                     echo "Non è necessario buildare l'immagine Docker"
                     echo "::set-output name=must_build::false"
                   else 
