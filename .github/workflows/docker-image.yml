@@ -22,7 +22,8 @@ jobs:
               FILE_CHANGED=$(git diff --name-only HEAD^ HEAD)
               
               for i in $FILE_CHANGED ; do
-                if [[ $i == */Dockerfile ]] || [[ $i == */docker-image.yml ]]; then
+                if [[ $i == */Dockerfile ]] || [[ $i == */setup.py ]]; then
+                  echo "Necessario buildare l'immagine Docker"
                   echo "::set-output name=run_step::true"
                   break
                 else
