@@ -16,7 +16,7 @@ jobs:
        with:
           fetch-depth: 0
       - run: |
-              readarray < $(git diff --name-only HEAD^ HEAD)
+              readarray < git diff --name-only HEAD^ HEAD
               
               for i in $MAPFILE ; do
                 echo $i
