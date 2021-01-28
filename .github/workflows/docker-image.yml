@@ -69,9 +69,8 @@ jobs:
                |
                 git clone --branch=master https://github.com/Silleellie/Docker-test.git repo
                 cd repo
-                git_hash=$(git rev-parse --short "$GITHUB_SHA")
-                echo $git_hash
-                git checkout -qf $git_hash
+                echo "$GITHUB_SHA"
+                git checkout -qf "$GITHUB_SHA"
                 container_id=$(docker run -d -i -v ${pwd}:/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
                 docker exec -i $container_id pip install coverage coveralls
                 docker exec -i $container_id coverage run --source=orange_cb_recsys -m unittest
