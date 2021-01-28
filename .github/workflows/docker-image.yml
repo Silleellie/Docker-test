@@ -16,22 +16,25 @@ jobs:
        with:
           fetch-depth: 0
       - run: |
-              echo "========== check paths of modified files =========="
-              git diff --name-only HEAD^ HEAD > files.txt
-              while IFS= read -r file
-              do
-                echo $file
-                if [[ $file != */docker-image.yml ]]; then
-                  echo "Non è stato modificato Docker"
-                  echo "::set-output name=run_job::false"
-                  break
-                else
-                  echo "::set-output name=run_job::true"
-                fi
-              done < files.txt
-              ls
-              rm files.txt
-              ls
+             FILES_CHANGED = $(git diff --name-only HEAD^ HEAD)
+             echo FILES_CHANGED
+#       - run: |
+#               echo "========== check paths of modified files =========="
+#               git diff --name-only HEAD^ HEAD > files.txt
+#               while IFS= read -r file
+#               do
+#                 echo $file
+#                 if [[ $file != */Dockerfile ] ]; then
+#                   echo "Non è stato modificato Docker"
+#                   echo "::set-output name=run_job::false"
+#                   break
+#                 else
+#                   echo "::set-output name=run_job::true"
+#                 fi
+#               done < files.txt
+#               ls
+#               rm files.txt
+#               ls
       -
        id: files
        uses: jitterbit/get-changed-files@v1
