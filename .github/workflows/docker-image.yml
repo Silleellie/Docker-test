@@ -1,0 +1,69 @@
+name: Docker Image CI
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    
+jobs:
+  main:
+    runs-on: ubuntu-latest
+
+    steps:
+      - 
+       name: Checkout 
+       uses: actions/checkout@v2
+       with:
+          fetch-depth: 0
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+            username: ${{ secrets.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      - 
+        name: Check File Changed
+        id: check
+        run: |
+              git diff --name-only HEAD^ HEAD
+              FILES_CHANGED=$(git diff --name-only HEAD^ HEAD)
+              
+              for i in "${FILES_CHANGED[@]}" ; do
+                if [[ $i == */Dockerfile ]] || [[ $i == */setup.py ]]; then
+                  echo "Necessario buildare l'immagine Docker"
+                  echo "::set-output name=must_build::true"
+                  break
+                else
+                  if [[ docker pull ${{ secrets.DOCKER_USERNAME }}/prova:latest >/dev/null 2>&1 && echo true || echo false ]]; then
+                    echo "Non è necessario buildare l'immagine Docker"
+                    echo "::set-output name=must_build::false"
+                  else 
+                    echo "Necessario buildare l'immagine Docker"
+                    echo "::set-output name=must_build::true"
+                  fi
+                fi
+              done
+      -
+        name: Set up Docker Buildx
+        if: ${{ steps.check.outputs.must_build == 'true' }}
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Build & Push
+        id: docker_build
+        if: ${{ steps.check.outputs.must_build == 'true' }}
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ github.WORKSPACE }}
+          file:  Dockerfile/Dockerfile
+          load: true
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/prova:latest
+      -
+         name: Test
+         run:
+               | 
+                container_id=$(docker run -d -i -t -v ${pwd}:/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
+                echo "ls del container"
+                docker exec -i $container_id ls
+                docker stop $container_id
+                docker container rm $container_id
