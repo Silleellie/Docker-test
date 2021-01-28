@@ -45,7 +45,7 @@ jobs:
 #             done
       -
         name: fai se
-        if: ${{ steps.check.outputs.run_step }} == "true"
+        if: ${{ steps.check.outputs.run_step == 'true' }}
         run: |
             echo ${{ steps.check.outputs.run_step }}
 #       - 
