@@ -17,9 +17,7 @@ RUN make all install JCC='python -m jcc' ANT=ant PYTHON=python NUM_FILES=8
 WORKDIR /usr/src
 RUN rm -rf pylucene
 
-RUN wget https://github.com/Silleellie/orange_cb_recsys/raw/master/setup.py \
-    && wget https://github.com/Silleellie/orange_cb_recsys/raw/master/requirements.txt \
-	&& wget https://github.com/Silleellie/orange_cb_recsys/raw/master/README.md
+COPY setup.py, requirements.txt, README.md, /usr/src
 
 RUN pip install wheel sphinx networkx lenskit
 RUN python setup.py install
