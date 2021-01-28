@@ -2,7 +2,6 @@
 
 # Orange_cb_recsys
 
-
 Framework for content-based recommender system
 
 Installation
