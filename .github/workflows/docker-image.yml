@@ -15,7 +15,9 @@ jobs:
        uses: actions/checkout@v2
        with:
           fetch-depth: 0
-      - run: git diff --name-only HEAD^ HEAD
+      - run: |
+              FILES_CHANGED = git diff --name-only HEAD^ HEAD
+              echo $FILES_CHANGED
       -
        id: files
        uses: jitterbit/get-changed-files@v1
@@ -28,11 +30,6 @@ jobs:
             for added_modified_file in "${added_modified_files[@]}"; do
               echo "Do something with this ${added_modified_file}."
             done
-      - 
-        name: Perform action when files change.
-        if: steps.changed_files.outputs.files_changed == 'true'
-        run: |
-          echo "AEEEEEE"
 #       - 
 #         name: Set up Docker Buildx
 #         uses: docker/setup-buildx-action@v1
