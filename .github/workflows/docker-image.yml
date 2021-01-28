@@ -59,6 +59,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/prova:latest
       -
          name: Test
+         id: unit_test
          run:
                | 
                 container_id=$(docker run -d -i -t -v ${pwd}:/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
@@ -68,4 +69,6 @@ jobs:
                 docker container rm $container_id
       -
          name: Push image to Docker
+         id: docker_push
+         if: ${{ steps.check.outputs.must_build == 'true' }}
          run: docker push ${{ secrets.DOCKER_USERNAME }}/prova
