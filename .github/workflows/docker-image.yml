@@ -66,10 +66,11 @@ jobs:
          name: Test
          id: unit_test
          run:
-               | 
+               |
+                ls  
                 pip install -r requirements.txt
                 python setup.py install
-                container_id=$(docker run -d -i -t -v ${pwd}:/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
+                container_id=$(docker run -d -i -v ${pwd}:/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
                 docker exec -i $container_id pip install coverage coveralls
                 docker exec -i $container_id coverage run --source=orange_cb_recsys -m unittest
                 docker stop $container_id
