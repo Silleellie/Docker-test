@@ -16,9 +16,9 @@ jobs:
        with:
           fetch-depth: 0
       - run: |
-              readarray < git diff --name-only HEAD^ HEAD
+              FILE_CHANGED=$(git diff --name-only HEAD^ HEAD)
               
-              for i in $MAPFILE ; do
+              for i in $FILE_CHANGED ; do
                 echo $i
               done
 #       - run: |
