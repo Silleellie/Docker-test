@@ -15,41 +15,40 @@ jobs:
        uses: actions/checkout@v2
        with:
           fetch-depth: 0
-      - run: |
+      - 
+        name: Check File Changed
+        outputs:
+            run_step: ${{ steps.check_files.outputs.run_step }}
+        run: |
               FILE_CHANGED=$(git diff --name-only HEAD^ HEAD)
               
               for i in $FILE_CHANGED ; do
-                echo $i
+                if [[ $file != */Dockerfile ]] && [[ $file != */docker-image.yml ]]; then
+                  echo "Non è necessario buildare l'immagine Docker"
+                  echo "::set-output name=run_step::false"
+                  break
+                else
+                  echo "::set-output name=run_step::true"
+                fi
               done
-#       - run: |
-#               echo "========== check paths of modified files =========="
-#               git diff --name-only HEAD^ HEAD > files.txt
-#               while IFS= read -r file
-#               do
-#                 echo $file
-#                 if [[ $file != */Dockerfile ] ]; then
-#                   echo "Non è stato modificato Docker"
-#                   echo "::set-output name=run_job::false"
-#                   break
-#                 else
-#                   echo "::set-output name=run_job::true"
-#                 fi
-#               done < files.txt
-#               ls
-#               rm files.txt
-#               ls
-      -
-       id: files
-       uses: jitterbit/get-changed-files@v1
-       with:
-          format: 'csv'
-      -
-        name: Prova 
+        -
+#       -
+#        id: files
+#        uses: jitterbit/get-changed-files@v1
+#        with:
+#           format: 'csv'
+#       -
+#         name: Prova 
+#         run: |
+#             mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
+#             for added_modified_file in "${added_modified_files[@]}"; do
+#               echo "Do something with this ${added_modified_file}."
+#             done
+#       -
+        name: fai se
+        if: ${{ steps.check_files.outputs.run_step }} == "true"
         run: |
-            mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
-            for added_modified_file in "${added_modified_files[@]}"; do
-              echo "Do something with this ${added_modified_file}."
-            done
+            echo "WEEE"
 #       - 
 #         name: Set up Docker Buildx
 #         uses: docker/setup-buildx-action@v1
