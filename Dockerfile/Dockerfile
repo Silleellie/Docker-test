@@ -17,6 +17,6 @@ RUN make all install JCC='python -m jcc' ANT=ant PYTHON=python NUM_FILES=8
 WORKDIR /usr/src
 RUN rm -rf pylucene
 
-COPY setup.py, requirements.txt, README.md, /usr/src
+COPY setup.py requirements.txt README.md /usr/src
 
 RUN python setup.py install
