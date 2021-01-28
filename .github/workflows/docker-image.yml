@@ -16,8 +16,11 @@ jobs:
        with:
           fetch-depth: 0
       - run: |
-             FILES_CHANGED=$(git diff --name-only HEAD^ HEAD)
-             echo $FILES_CHANGED
+              readarray < $(git diff --name-only HEAD^ HEAD)
+              
+              for i in $MAPFILE ; do
+                echo $i
+              done
 #       - run: |
 #               echo "========== check paths of modified files =========="
 #               git diff --name-only HEAD^ HEAD > files.txt
