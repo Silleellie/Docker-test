@@ -48,7 +48,7 @@ jobs:
         if: ${{ steps.check.outputs.must_build == 'true' }}
         uses: docker/setup-buildx-action@v1
       -
-        name: Build & Push
+        name: Build
         id: docker_build
         if: ${{ steps.check.outputs.must_build == 'true' }}
         uses: docker/build-push-action@v2
@@ -56,7 +56,6 @@ jobs:
           context: ${{ github.WORKSPACE }}
           file:  Dockerfile/Dockerfile
           load: true
-          push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/prova:latest
       -
          name: Test
@@ -67,3 +66,6 @@ jobs:
                 docker exec -i $container_id ls
                 docker stop $container_id
                 docker container rm $container_id
+      -
+         name: Push image to Docker
+         run: docker push ${{ secrets.DOCKER_USERNAME }}/prova
