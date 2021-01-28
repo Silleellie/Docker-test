@@ -19,5 +19,4 @@ RUN rm -rf pylucene
 
 COPY setup.py, requirements.txt, README.md, /usr/src
 
-RUN pip install wheel sphinx networkx lenskit
 RUN python setup.py install
