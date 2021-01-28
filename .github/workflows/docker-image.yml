@@ -29,7 +29,7 @@ jobs:
               FILES_CHANGED=$(git diff --name-only HEAD^ HEAD)
               
               for i in "${FILES_CHANGED[@]}" ; do
-                if [[ $i == */Dockerfile ]] || [[ $i == */setup.py ]]; then
+                if [[ $i == */Dockerfile ]] || [[ $i == setup.py ]]; then
                   echo "Necessario buildare l'immagine Docker"
                   echo "::set-output name=must_build::true"
                   break
