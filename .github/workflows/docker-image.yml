@@ -16,7 +16,7 @@ jobs:
        with:
           fetch-depth: 0
       - run: |
-             FILES_CHANGED = $(git diff --name-only HEAD^ HEAD)
+             FILES_CHANGED=$(git diff --name-only HEAD^ HEAD)
              echo FILES_CHANGED
 #       - run: |
 #               echo "========== check paths of modified files =========="
