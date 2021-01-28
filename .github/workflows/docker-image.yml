@@ -13,6 +13,8 @@ jobs:
       - 
        name: Checkout 
        uses: actions/checkout@v2
+       with:
+          fetch-depth: 0
       -
         name: Login to DockerHub
         uses: docker/login-action@v1 
@@ -65,10 +67,7 @@ jobs:
          id: unit_test
          run:
                |
-                git clone --branch=master https://github.com/Silleellie/Docker-test.git repo
-                cd repo
-                echo "$GITHUB_SHA"
-                git checkout -qf "$GITHUB_SHA"
+                cd ${{ github.WORKSPACE }}
                 container_id=$(docker run -d -i -v ${pwd}:/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
                 docker exec -i $container_id pip install coverage coveralls
                 docker exec -i $container_id coverage run --source=orange_cb_recsys -m unittest
