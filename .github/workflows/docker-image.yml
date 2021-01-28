@@ -16,9 +16,8 @@ jobs:
        with:
           fetch-depth: 0
       - 
+        id: check
         name: Check File Changed
-        outputs:
-            run_step: ${{ steps.check_files.outputs.run_step }}
         run: |
               FILE_CHANGED=$(git diff --name-only HEAD^ HEAD)
               
@@ -31,7 +30,6 @@ jobs:
                   echo "::set-output name=run_step::true"
                 fi
               done
-        -
 #       -
 #        id: files
 #        uses: jitterbit/get-changed-files@v1
@@ -44,9 +42,9 @@ jobs:
 #             for added_modified_file in "${added_modified_files[@]}"; do
 #               echo "Do something with this ${added_modified_file}."
 #             done
-#       -
+      -
         name: fai se
-        if: ${{ steps.check_files.outputs.run_step }} == "true"
+        if: ${{ steps.check.outputs.run_step }} == "true"
         run: |
             echo "WEEE"
 #       - 
