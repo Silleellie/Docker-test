@@ -19,6 +19,7 @@ jobs:
         id: check
         name: Check File Changed
         run: |
+              git diff --name-only HEAD^ HEAD
               FILE_CHANGED=$(git diff --name-only HEAD^ HEAD)
               
               for i in $FILE_CHANGED ; do
