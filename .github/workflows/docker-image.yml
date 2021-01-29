@@ -66,9 +66,10 @@ jobs:
          name: execute
          with:
             image: silleellie/prova
-            options: -d -it -v $(pwd):/usr/src
+            options: -d -it -v $GITHUB_WORKSPACE
             run: |
                   echo "first line"
+                  ls
 #          run:
 #                |
 #                 container_id=$(docker run -d -it -v ${pwd}:/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
