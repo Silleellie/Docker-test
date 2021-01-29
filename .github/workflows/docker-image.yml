@@ -65,7 +65,7 @@ jobs:
   test:
     container:
       image: silleellie/prova
-      options: -t -v ${pwd}:/usr/src
+      options: -t -v ${{ github.WORKSPACE }}
     
     runs-on: ubuntu-latest
     steps:
