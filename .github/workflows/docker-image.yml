@@ -62,9 +62,12 @@ jobs:
           file:  Dockerfile/Dockerfile
           load: true
           tags: ${{ secrets.DOCKER_USERNAME }}/prova:latest
-  container:
+  test:
+    container:
+      image: silleellie/prova
+      options: -t -v ${pwd}:/usr/src
+    
     runs-on: ubuntu-latest
-    container: silleellie/prova
     steps:
       - run: |
               ls
