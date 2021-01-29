@@ -78,7 +78,7 @@ jobs:
          name: Test
          run:
                |
-                container_id=$(docker run -d --mount type=bind,source="$(pwd)"/data,target=/home/data -it  ${{ secrets.DOCKER_USERNAME }}/prova)
+                container_id=$(docker run -d --mount type=bind,source="$(pwd)",target=/usr/src -it  ${{ secrets.DOCKER_USERNAME }}/prova)
                 docker exec -i $container_id pip install coverage coveralls pytest
                 docker exec -i $container_id python -m pytest test/content_analyzer/test_run.py
                 docker stop $container_id
