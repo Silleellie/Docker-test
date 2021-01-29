@@ -63,10 +63,10 @@ jobs:
           load: true
           tags: ${{ secrets.DOCKER_USERNAME }}/prova:latest
       -
-         name: Test
-         id: unit_test
+         name: Docker Run Action
          uses: addnab/docker-run-action@v1
-      -   
+      -
+         name: Test   
          with:
             image: ${{ secrets.DOCKER_USERNAME }}/prova:latest
             options: -d -it -v $(pwd):/usr/src
