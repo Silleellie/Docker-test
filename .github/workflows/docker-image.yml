@@ -62,17 +62,16 @@ jobs:
           file:  Dockerfile/Dockerfile
           load: true
           tags: ${{ secrets.DOCKER_USERNAME }}/prova:latest
+  container:
+      runs-on: ubuntu-latest
+      container: ${{ secrets.DOCKER_USERNAME }}/prova:latest
+      steps:
       -
-         name: Docker Run Action
-         uses: addnab/docker-run-action@v1
-      -
-         name: Test   
-         with:
-            image: silleellie/prova:latest
-#             options: -d -it -v $(pwd):/usr/src
-            run: |
-                  pip install coverage coveralls pytest
-                  python -m pytest test/content_analyzer/test_run.py
+         name: Test
+         run: |
+                pip install coverage coveralls pytest
+                ls
+                python -m pytest test/content_analyzer/test_run.py
 #          run:
 #                |
 #                 container_id=$(docker run -d -it -v ${pwd}:/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
@@ -80,9 +79,9 @@ jobs:
 #                 docker exec -i $container_id python -m pytest test/content_analyzer/test_run.py
 #                 docker stop $container_id
 #                 docker container rm $container_id
-      -
-         name: Push image to Docker
-         id: docker_push
-         if: ${{ steps.check.outputs.must_build == 'true' }}
-         run: docker push ${{ secrets.DOCKER_USERNAME }}/prova
+#       -
+#          name: Push image to Docker
+#          id: docker_push
+#          if: ${{ steps.check.outputs.must_build == 'true' }}
+#          run: docker push ${{ secrets.DOCKER_USERNAME }}/prova
       
