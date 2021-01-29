@@ -9,7 +9,7 @@ jobs:
   main:
     runs-on: ubuntu-latest
     env: 
-        IMAGE_NAME: prova
+      IMAGE_NAME: "prova"
 
     steps:
       - 
