@@ -62,16 +62,16 @@ jobs:
           file:  Dockerfile/Dockerfile
           load: true
           tags: ${{ secrets.DOCKER_USERNAME }}/prova:latest
-  container:
-      runs-on: ubuntu-latest
-      container: ${{ secrets.DOCKER_USERNAME }}/prova:latest
-      steps:
       -
-         name: Test
-         run: |
-                pip install coverage coveralls pytest
-                ls
-                python -m pytest test/content_analyzer/test_run.py
+         name: setup Action
+         uses: addnab/docker-run-action@v1
+      -
+         name: execute
+         with:
+            image: silleellie/prova
+            options: -d -it -v $(pwd):/usr/src
+            run: |
+                  echo "first line"
 #          run:
 #                |
 #                 container_id=$(docker run -d -it -v ${pwd}:/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
