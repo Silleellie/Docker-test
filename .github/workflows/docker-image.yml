@@ -62,10 +62,7 @@ jobs:
           file:  Dockerfile/Dockerfile
           load: true
           tags: ${{ secrets.DOCKER_USERNAME }}/prova:latest
-      -
-         name: setup Action
-         uses: addnab/docker-run-action@v1
-      -
+      -  uses: addnab/docker-run-action@v1
          name: execute
          with:
             image: silleellie/prova
