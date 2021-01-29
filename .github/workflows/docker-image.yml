@@ -65,15 +65,23 @@ jobs:
       -
          name: Test
          id: unit_test
-         run:
-               |
-                container_id=$(docker run -d -it -v ${pwd}:/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
-                docker exec -i $container_id pip install coverage coveralls pytest
-                docker exec -i $container_id python -m pytest test/content_analyzer/test_run.py
-                docker stop $container_id
-                docker container rm $container_id
+      -  uses: addnab/docker-run-action@v1
+         with:
+            image: ${{ secrets.DOCKER_USERNAME }}/prova:latest
+            options: -d -it -v $(pwd):/usr/src
+            run: |
+                  pip install coverage coveralls pytest
+                  python -m pytest test/content_analyzer/test_run.py
+#          run:
+#                |
+#                 container_id=$(docker run -d -it -v ${pwd}:/usr/src ${{ secrets.DOCKER_USERNAME }}/prova)
+#                 docker exec -i $container_id pip install coverage coveralls pytest
+#                 docker exec -i $container_id python -m pytest test/content_analyzer/test_run.py
+#                 docker stop $container_id
+#                 docker container rm $container_id
       -
          name: Push image to Docker
          id: docker_push
          if: ${{ steps.check.outputs.must_build == 'true' }}
          run: docker push ${{ secrets.DOCKER_USERNAME }}/prova
+      
