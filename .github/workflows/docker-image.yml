@@ -68,8 +68,8 @@ jobs:
       -
          name: Test   
          with:
-            image: ${{ secrets.DOCKER_USERNAME }}/prova:latest
-            options: -d -it -v $(pwd):/usr/src
+            image: silleellie/prova:latest
+#             options: -d -it -v $(pwd):/usr/src
             run: |
                   pip install coverage coveralls pytest
                   python -m pytest test/content_analyzer/test_run.py
