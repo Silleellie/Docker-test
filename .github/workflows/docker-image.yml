@@ -65,7 +65,8 @@ jobs:
       -
          name: Test
          id: unit_test
-      -  uses: addnab/docker-run-action@v1
+         uses: addnab/docker-run-action@v1
+      -   
          with:
             image: ${{ secrets.DOCKER_USERNAME }}/prova:latest
             options: -d -it -v $(pwd):/usr/src
